@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -30,7 +29,7 @@ class DummyDbTest {
     @Test
     void should_create_movie() {
         // Arrange
-        MovieEntity alien = MovieFixture.getAlien();
+        MovieEntity alien = MovieFixture.getAlienEntity();
 
         // Act
         MovieEntity savedMovie = movieEntityRepository.save(alien);

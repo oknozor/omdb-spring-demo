@@ -1,22 +1,15 @@
-package com.example.omdbdemo.movies.dataproviders.db.entity;
+package com.example.omdbdemo.movies.core.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "movie")
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @With
-public class MovieEntity {
-    @Id
+public class Movie {
     private String id;
     private String title;
     private String year;
@@ -25,10 +18,9 @@ public class MovieEntity {
     private String genre;
     private String director;
     private String writer;
+    private String actors;
     private String plot;
     private String language;
     private String country;
-    // FIXME: extract those to lists
     private String awards;
-    private String actors;
 }
