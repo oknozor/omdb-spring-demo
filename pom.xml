@@ -16,6 +16,9 @@
 
 	<properties>
 		<java.version>14</java.version>
+		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
+		<assertj-db.version>1.3.0</assertj-db.version>
+		<testcontainers.version>1.14.3</testcontainers.version>
 	</properties>
 
 	<dependencies>
@@ -46,29 +49,34 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${org.mapstruct.version}</version>
+		</dependency>
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-db</artifactId>
-			<version>1.3.0</version>
+			<version>${assertj-db.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>testcontainers</artifactId>
-			<version>1.14.3</version>
+			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>1.14.3</version>
+			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>1.14.3</version>
+			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -124,6 +132,23 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version> <!-- or newer version -->
+				<configuration>
+					<source>1.8</source> <!-- depending on your project -->
+					<target>1.8</target> <!-- depending on your project -->
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${org.mapstruct.version}</version>
+						</path>
+						<!-- other annotation processors -->
+					</annotationProcessorPaths>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
