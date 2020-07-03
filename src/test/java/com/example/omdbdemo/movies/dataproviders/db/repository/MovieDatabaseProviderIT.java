@@ -1,34 +1,24 @@
 package com.example.omdbdemo.movies.dataproviders.db.repository;
 
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
-import com.example.omdbdemo.config.MapperTest;
+import com.example.omdbdemo.config.IntegrationTest;
 import com.example.omdbdemo.config.SharedPostgresqlContainer;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
+@IntegrationTest
 @Import({MovieDatabaseProvider.class})
-@DataJpaTest
-@MapperTest
-@Testcontainers
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class MovieDatabaseProviderIT {
 
     @Container
@@ -36,10 +26,6 @@ class MovieDatabaseProviderIT {
 
     @Autowired
     MovieDatabaseProvider movieDatabaseProvider;
-
-    @BeforeEach
-    void setUp() {
-    }
 
     @Test
     @DisplayName("Should create movie")
@@ -164,7 +150,8 @@ class MovieDatabaseProviderIT {
         List<Movie> movies = movieDatabaseProvider.getAll();
 
         // Assert
-        assertThat(movies).hasSize(1);
-        assertThat(movies.stream().map(Movie::getTitle)).containsExactly("Alien");
+        // tests are run asynchronously, there might be more than one movie in the container db
+        assertThat(movies).hasSizeGreaterThan(1);
+        assertThat(movies.stream().map(Movie::getTitle)).contains("Alien");
     }
 }

@@ -1,6 +1,5 @@
 package com.example.omdbdemo.movies.dataproviders.db.repository;
 
-import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.port.MovieProvider;
 import com.example.omdbdemo.movies.dataproviders.db.entity.MovieEntity;
