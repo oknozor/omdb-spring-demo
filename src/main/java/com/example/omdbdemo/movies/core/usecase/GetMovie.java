@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class GetMovie {
     private final MovieProvider movieProvider;
 
-    public void execute(String movieId) throws NoSuchResourceException {
-        movieProvider.byId(movieId).orElseThrow(() -> new NoSuchResourceException(Movie.class, movieId));
+    public Movie execute(String movieId) throws NoSuchResourceException {
+        return movieProvider.byId(movieId).orElseThrow(() -> new NoSuchResourceException(Movie.class, movieId));
     }
 }

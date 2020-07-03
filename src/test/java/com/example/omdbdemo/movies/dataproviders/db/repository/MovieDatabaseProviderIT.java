@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(SpringExtension.class)
 @Import({MovieDatabaseProvider.class})
@@ -110,7 +109,6 @@ class MovieDatabaseProviderIT {
     @DisplayName("Should update movie")
     void updateOk() {
         // Arrange
-        String alienId = MovieFixture.ALIEN_ID;
         Movie alienFrenchEdit = MovieFixture.getAlien()
                 .withActors("Gérard Depardieu");
         // Act
@@ -122,7 +120,7 @@ class MovieDatabaseProviderIT {
 
     @Test
     @DisplayName("Should delete movie")
-    void deleteOk() throws NoSuchResourceException {
+    void deleteOk() {
         // Arrange
         String alienId = MovieFixture.ALIEN_ID;
 

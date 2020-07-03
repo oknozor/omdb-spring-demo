@@ -13,7 +13,9 @@ public class UpdateMovie {
 
     public Movie execute(Movie movie) throws NoSuchResourceException {
         String movieId = movie.getId();
-        movieProvider.byId(movieId).orElseThrow(() -> new NoSuchResourceException(Movie.class, movieId));
+        if (!movieProvider.exists(movieId)) {
+            throw new NoSuchResourceException(Movie.class, movieId);
+        }
         return movieProvider.createOrUpdate(movie);
     }
 }
