@@ -46,4 +46,18 @@ class OmdbMovieProviderIT {
         assertThat(princessMononoke.get().getRuntime()).isEqualTo("134 min");
         assertThat(princessMononoke.get().getYear()).isEqualTo("1997");
     }
+
+    @Test
+    @DisplayName("Should fail if movie is not found")
+    public void byTitleFails() {
+        // Arrange
+        String movieTitle = "azeraetjegle";
+
+        // Act
+        Optional<Movie> movie = omdbMovieProvider.byTitle(movieTitle);
+
+        // Assert
+        assertThat(movie).isNotPresent();
+
+    }
 }
