@@ -16,4 +16,6 @@ public interface MovieProvider {
     List<Movie> getAll();
 
     boolean exists(String id);
+
+    boolean existByTitle(String title);
 }

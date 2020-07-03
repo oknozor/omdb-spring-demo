@@ -44,4 +44,9 @@ public class MovieDatabaseProvider implements MovieProvider {
     public boolean exists(String id) {
         return repository.existsById(id);
     }
+
+    @Override
+    public boolean existByTitle(String title) {
+        return repository.existsByTitle(title);
+    }
 }

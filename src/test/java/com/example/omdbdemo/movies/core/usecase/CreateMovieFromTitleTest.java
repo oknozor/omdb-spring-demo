@@ -1,6 +1,7 @@
 package com.example.omdbdemo.movies.core.usecase;
 
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
+import com.example.omdbdemo.common.core.exception.ResourceAlreadyExistsException;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.port.MovieFetcher;
 import com.example.omdbdemo.movies.core.port.MovieProvider;
@@ -36,9 +37,10 @@ class CreateMovieFromTitleTest {
 
     @Test
     @DisplayName("Should create movie")
-    void createMovieOk() throws NoSuchResourceException {
+    void createMovieOk() throws NoSuchResourceException, ResourceAlreadyExistsException {
         // Arrange
         Movie alien = MovieFixture.getAlien();
+        when(movieProvider.existByTitle("Alien")).thenReturn(false);
         when(movieFetcher.byTitle("Alien")).thenReturn(Optional.of(alien));
         when(movieProvider.createOrUpdate(any())).thenReturn(alien);
 
@@ -51,8 +53,21 @@ class CreateMovieFromTitleTest {
     }
 
     @Test
+    @DisplayName("Should not create movie if it already exists in db")
+    void createExistingMovieFails() {
+        // Arrange
+        Movie alien = MovieFixture.getAlien();
+        when(movieProvider.existByTitle("Alien")).thenReturn(true);
+
+        // Act + Assert
+        assertThatThrownBy(() -> createMovieFromTitle.execute("Alien"))
+                .isInstanceOf(ResourceAlreadyExistsException.class);
+    }
+
+
+    @Test
     @DisplayName("Should not create movie if not present in omdb api")
-    void createMovieFail() throws NoSuchResourceException {
+    void createMovieFail() {
         // Arrange
         String invalidTitle = "Invalid Title";
         when(movieFetcher.byTitle(invalidTitle)).thenReturn(Optional.empty());
