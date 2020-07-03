@@ -1,26 +1,33 @@
 package com.example.omdbdemo.movies.dataproviders.omdb.repository;
 
-import com.example.omdbdemo.config.IntegrationTest;
-import com.example.omdbdemo.config.SharedPostgresqlContainer;
+import com.example.omdbdemo.config.MapperTest;
 import com.example.omdbdemo.movies.core.model.Movie;
+import com.example.omdbdemo.movies.entrypoints.MovieController;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@IntegrationTest
-class OmdbMovieProviderIT {
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(OmdbMovieProvider.class)
+@MapperTest
+@EnableSpringDataWebSupport
+@Import(OmdbClient.class)
+class OmdbMovieProviderIntegrationTest {
 
     @Autowired
     OmdbMovieProvider omdbMovieProvider;
-
-    @Container
-    public static PostgreSQLContainer<?> postgreSQLContainer = SharedPostgresqlContainer.getInstance();
 
     @Test
     @DisplayName("Should get a movie by its title")

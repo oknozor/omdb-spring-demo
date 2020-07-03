@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @IntegrationTest
 @Import({MovieDatabaseProvider.class})
-class MovieDatabaseProviderIT {
+class MovieDatabaseProviderIntegrationTest {
 
     @Container
     public static PostgreSQLContainer<?> postgreSQLContainer = SharedPostgresqlContainer.getInstance();
