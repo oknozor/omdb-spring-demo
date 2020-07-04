@@ -31,7 +31,7 @@ class OmdbMovieProviderIntegrationTest {
 
     @Test
     @DisplayName("Should get a movie by its title")
-    public void getByTitleOk() {
+    void getByTitleOk() {
         // Arrange
         String movieTitle = "Princess Mononoke";
 
@@ -56,7 +56,7 @@ class OmdbMovieProviderIntegrationTest {
 
     @Test
     @DisplayName("Should fail if movie is not found")
-    public void byTitleFails() {
+    void byTitleFails() {
         // Arrange
         String movieTitle = "azeraetjegle";
 

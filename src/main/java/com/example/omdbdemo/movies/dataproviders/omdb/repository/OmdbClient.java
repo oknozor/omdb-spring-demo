@@ -18,7 +18,6 @@ public class OmdbClient {
     public OmdbClient(@Value("${omdb.api.key}") String apiKey) {
         this.apiKey = apiKey;
         restTemplate = new RestTemplate();
-        System.out.println("this is " + apiKey);
     }
 
     public Optional<OmdbMovieEntity> getMovieByTitle(String title) {

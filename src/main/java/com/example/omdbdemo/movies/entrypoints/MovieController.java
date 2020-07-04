@@ -12,10 +12,13 @@ import com.example.omdbdemo.movies.entrypoints.dto.MovieDto;
 import com.example.omdbdemo.movies.entrypoints.dto.mapper.MovieDtoMapper;
 import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -26,6 +29,8 @@ public class MovieController {
     private final UpdateMovie updateMovie;
     private final DeleteMovie deleteMovie;
     private final MovieDtoMapper mapper;
+
+    private final static Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     @PostMapping("/movies")
     public ResponseEntity<MovieDto> create(
@@ -65,7 +70,7 @@ public class MovieController {
 
     @GetMapping("/movies")
     public List<MovieDto> getAll() {
-        System.out.println("get all movie not implemented");
-        return null;
+        logger.warn("get all movie not implemented");
+        return List.of();
     }
 }

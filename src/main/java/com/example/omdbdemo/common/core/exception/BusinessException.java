@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 public class BusinessException extends Exception {
 
     private final HttpStatus httpStatus;
-    private String code;
 
     public BusinessException(String message, HttpStatus status) {
         super(message);

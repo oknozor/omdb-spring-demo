@@ -50,7 +50,7 @@ class MovieControllerTest {
 
     @Test
     @DisplayName("Should get a movie by its imdb id")
-    public void getMovieById() throws Exception {
+    void getMovieById() throws Exception {
         Movie alien = MovieFixture.getAlien();
         when(getMovie.execute(MovieFixture.ALIEN_ID)).thenReturn(alien);
         MovieDto alienDto = mapper.fromDomain(alien);
