@@ -10,6 +10,27 @@
 
 This is a sample Springboot project using the [Open Movie Database](http://www.omdbapi.com/) API.
 
+## Contributing guidelines
+
+If you want to participate please respect the following conventions : 
+- We use [the conventional commit specification](https://www.conventionalcommits.org/en/v1.0.0/).
+- We build our app with [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) in mind. 
+- Any code addition shall not decrease the current coverage, please write tests ! 
+
+## Documentation 
+
+### Rest doc
+
+Documentation for this API can be found [here](https://oknozor.github.io/omdb-spring-demo/) 
+
+### Architectural Decision
+
+We document our architectural decision throught the [ADR specification](https://adr.github.io/)
+
+#### Records
+1. [record-architecture-decisions](0001-record-architecture-decisions.md)
+1. [use-clean-architecture.md](0002-use-clean-architecture.md)
+
 ## Dependencies 
 
 - Docker >= 19.03.11-1
