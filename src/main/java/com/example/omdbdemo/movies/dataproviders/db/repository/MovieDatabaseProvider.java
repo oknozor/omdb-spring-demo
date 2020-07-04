@@ -26,9 +26,7 @@ public class MovieDatabaseProvider implements MovieProvider {
         MovieEntity movieUpdate = mapper.fromDomain(movie);
         // Comment are reattached to the movie when need to update
         // Updating comments is donne via the /comments controller
-        repository.findById(movie.getId()).ifPresent(entity -> {
-            movieUpdate.setComments(entity.getComments());
-        });
+        repository.findById(movie.getId()).ifPresent(entity -> movieUpdate.setComments(entity.getComments()));
         MovieEntity updatedMovie = repository.save(movieUpdate);
 
         return mapper.toDomain(updatedMovie);

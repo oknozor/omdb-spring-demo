@@ -30,7 +30,7 @@ public class MovieController {
     private final DeleteMovie deleteMovie;
     private final MovieDtoMapper mapper;
 
-    private final static Logger logger = LoggerFactory.getLogger(MovieController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     @PostMapping(
             value = "/movies",
