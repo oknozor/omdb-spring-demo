@@ -11,3 +11,4 @@
 .Links
 include::{snippets}/index/links.adoc[]
 include::/{docdir}/movie.adoc[]
+include::/{docdir}/comment.adoc[]

@@ -1,11 +1,15 @@
 package com.example.omdbdemo.movies.dataproviders.db.entity;
 
+import com.example.omdbdemo.comments.core.model.CommentFixture;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 
+import java.util.List;
+import java.util.Set;
+
 public class MovieFixture {
-    public static String ALIEN_ID = "Alien_imdb_id";
-    public static String MONONOKE_ID = "Mononoke_imdb_id";
+    public static String ALIEN_ID = "tt0078748";
+    public static String MONONOKE_ID = "tt0119698";
 
     public static MovieEntity getAlienEntity() {
         return new MovieEntity()
@@ -76,7 +80,8 @@ public class MovieFixture {
                 .withCountry("Japan")
                 .withDirector("Ayaho Miyazaki")
                 .withActors("Brad Pit")
-                .withAwards("Best animation movie all of time");
+                .withAwards("Best animation movie all of time")
+                .withComments(Set.of(CommentFixture.getCommentForMononoke()));
     }
 
     public static MovieEntity getPrincessMononokeEntity() {
@@ -92,6 +97,7 @@ public class MovieFixture {
                 .withCountry("Japan")
                 .withDirector("Ayaho Miyazaki")
                 .withActors("Brad Pit")
-                .withAwards("Best animation movie all of time");
+                .withAwards("Best animation movie all of time")
+                .withComments(Set.of(CommentFixture.getCommentEntityForMononoke()));
     }
 }

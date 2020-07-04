@@ -1,8 +1,11 @@
 package com.example.omdbdemo.movies.entrypoints.dto;
 
+import com.example.omdbdemo.comments.entrypoints.dto.CommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +24,5 @@ public class MovieDto {
     private String language;
     private String country;
     private String awards;
+    private List<CommentDto> comments;
 }
