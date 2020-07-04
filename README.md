@@ -28,8 +28,8 @@ Documentation for this API can be found [here](https://oknozor.github.io/omdb-sp
 We document our architectural decision throught the [ADR specification](https://adr.github.io/)
 
 #### Records
-1. [record-architecture-decisions](0001-record-architecture-decisions.md)
-1. [use-clean-architecture.md](0002-use-clean-architecture.md)
+1. [record-architecture-decisions](docs/adr/0001-record-architecture-decisions.md)
+1. [use-clean-architecture](docs/adr/0002-use-clean-architecture.md)
 
 ## Dependencies 
 
@@ -59,4 +59,4 @@ Paul Delafosse
 
 ### Licence
 
-This project is licenced under the [MIT Licence](LICENCE)
+This project is licenced under the [MIT License](LICENSE)
