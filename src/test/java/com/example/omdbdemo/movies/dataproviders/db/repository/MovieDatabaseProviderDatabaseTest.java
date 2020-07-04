@@ -31,19 +31,7 @@ class MovieDatabaseProviderDatabaseTest {
     @DisplayName("Should create movie")
     void createOk() {
         // Arrange
-        Movie mononokeHime = new Movie()
-                .withId("123")
-                .withTitle("Mononoke Hime")
-                .withRelease("1994")
-                .withLanguage("Japanese")
-                .withRuntime("2H")
-                .withWriter("Miyazaki")
-                .withPlot("Prince Ashitaka on a journey to heal is cursed wound")
-                .withGenre("Japanese Animation")
-                .withCountry("Japan")
-                .withDirector("Ayaho Miyazaki")
-                .withActors("Brad Pit")
-                .withAwards("Best animation movie all of time");
+        Movie mononokeHime = MovieFixture.getPrincessMononoke();
 
         // Act
         Movie createdMovie = movieDatabaseProvider.createOrUpdate(mononokeHime);

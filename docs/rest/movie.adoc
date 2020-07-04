@@ -1,0 +1,40 @@
+== Movie
+
+=== Create
+===== Request body
+include::{snippets}/movie-create-example/request-body.adoc[]
+include::{snippets}/movie-create-example/request-fields.adoc[]
+===== Response body
+include::{snippets}/movie-create-example/response-body.adoc[]
+===== Curl
+include::{snippets}/movie-create-example/curl-request.adoc[]
+===== Httpie
+include::{snippets}/movie-create-example/httpie-request.adoc[]
+
+
+=== Read
+===== Response body
+include::{snippets}/movie-read-example/response-body.adoc[]
+===== Curl
+include::{snippets}/movie-read-example/curl-request.adoc[]
+===== Httpie
+include::{snippets}/movie-read-example/httpie-request.adoc[]
+
+
+=== Update
+
+===== Request body
+include::{snippets}/movie-update-example/request-body.adoc[]
+include::{snippets}/movie-update-example/request-fields.adoc[]
+===== Response body
+include::{snippets}/movie-update-example/response-body.adoc[]
+===== Curl
+include::{snippets}/movie-update-example/curl-request.adoc[]
+===== Httpie
+include::{snippets}/movie-update-example/httpie-request.adoc[]
+
+=== Delete
+===== Curl
+include::{snippets}/movie-delete-example/curl-request.adoc[]
+===== Httpie
+include::{snippets}/movie-delete-example/httpie-request.adoc[]

@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateMovieByTitleCommand {
-    String tittle;
+    String title;
 }

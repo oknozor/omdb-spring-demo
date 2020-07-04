@@ -3,10 +3,12 @@ package com.example.omdbdemo.movies.entrypoints.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.With;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@With
 public class UpdateMovieCommand {
     private String title;
     private String year;

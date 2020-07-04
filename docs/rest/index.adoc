@@ -1,0 +1,13 @@
+= Spring Omdb demo api
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:highlightjs-theme: github
+:toc: left
+:toclevels: 3
+:sectlinks:
+:sectnums:
+
+.Links
+include::{snippets}/index/links.adoc[]
+include::/{docdir}/movie.adoc[]
