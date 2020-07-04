@@ -39,8 +39,16 @@ We document our architectural decision throught the [ADR specification](https://
 
 ## Build & Run
 
-To run the application you will need at least java OpenJdK 14, refer
-to your specific OS to get it. 
+The application requires that you have a running postgresql instance. 
+You can configure it according to the [application.properties](src/main/resources/application.properties) config
+or use the provided docker compose file : 
+
+```$bash
+cd src/main/docker
+docker-compose up -d
+```
+
+You will also need at least java OpenJdK 14, please refer to your specific OS documentation to get it. 
 
 1. build the application : `mvn package`
 2. run : `java -jar target/omdbdemo-{version}.jar`

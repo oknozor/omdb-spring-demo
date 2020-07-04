@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12.3
+    environment:
+      POSTGRES_USER: omdbdemo
+      POSTGRES_PASSWORD: omdbdemo
+      POSTGRES_DB: omdbdemo
+    ports:
+      - 5432:5432
