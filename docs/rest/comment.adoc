@@ -1,0 +1,22 @@
+== Comments
+
+=== Create
+===== Request body
+include::{snippets}/comment-create-example/request-body.adoc[]
+include::{snippets}/comment-create-example/request-fields.adoc[]
+===== Response body
+include::{snippets}/comment-create-example/response-body.adoc[]
+===== Curl
+include::{snippets}/comment-create-example/curl-request.adoc[]
+===== Httpie
+include::{snippets}/comment-create-example/httpie-request.adoc[]
+
+=== Read all
+
+===== Response body
+include::{snippets}/comment-read-all-example/response-body.adoc[]
+===== Curl
+include::{snippets}/comment-read-all-example/curl-request.adoc[]
+===== Httpie
+include::{snippets}/comment-read-all-example/httpie-request.adoc[]
+

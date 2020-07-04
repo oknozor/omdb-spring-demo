@@ -59,9 +59,6 @@ class MovieControllerTest {
     @MockBean
     UpdateMovie updateMovie;
 
-    @Autowired
-    MovieDtoMapper movieMapper;
-
     ObjectMapper jsonMapper = new ObjectMapper();
 
     @BeforeEach
@@ -84,7 +81,7 @@ class MovieControllerTest {
         MovieDto alienDto = mapper.fromDomain(alien);
 
         // Act + Assert
-        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/{id}", MovieFixture.ALIEN_ID))
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies/{id}", MovieFixture.ALIEN_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().json(jsonMapper.writeValueAsString(alienDto)))
                 .andDo(document("movie-read-example",
@@ -98,7 +95,7 @@ class MovieControllerTest {
     void deleteMovie() throws Exception {
         // Arrange
         // Act + Assert
-        this.mockMvc.perform(RestDocumentationRequestBuilders.delete("/{id}", MovieFixture.ALIEN_ID))
+        this.mockMvc.perform(RestDocumentationRequestBuilders.delete("/movies/{id}", MovieFixture.ALIEN_ID))
                 .andExpect(status().isNoContent())
                 .andDo(document("movie-delete-example",
                         preprocessRequest(prettyPrint()),
@@ -115,7 +112,7 @@ class MovieControllerTest {
         when(updateMovie.execute(alienUpdated)).thenReturn(alienUpdated);
 
         // Act + Assert
-        this.mockMvc.perform(RestDocumentationRequestBuilders.put("/{id}", MovieFixture.ALIEN_ID)
+        this.mockMvc.perform(RestDocumentationRequestBuilders.put("/movies/{id}", MovieFixture.ALIEN_ID)
                 .content(jsonMapper.writeValueAsString(alienWithGerardDepardieuUpdateCommand))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -151,7 +148,7 @@ class MovieControllerTest {
         when(updateMovie.execute(unknownMovie)).thenThrow(new NoSuchResourceException(Movie.class, unknownMovie.getId()));
 
         // Act + Assert
-        this.mockMvc.perform(RestDocumentationRequestBuilders.put("/{id}", invalidId)
+        this.mockMvc.perform(RestDocumentationRequestBuilders.put("/movies/{id}", invalidId)
                 .content(jsonMapper.writeValueAsString(alienWithGerardDepardieu))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -165,7 +162,7 @@ class MovieControllerTest {
         when(createMovieFromTitle.execute(princessMononokeTitle)).thenReturn(MovieFixture.getPrincessMononoke());
 
         // Act + Assert
-        this.mockMvc.perform(RestDocumentationRequestBuilders.post("/")
+        this.mockMvc.perform(RestDocumentationRequestBuilders.post("/movies")
                 .content(jsonMapper.writeValueAsString(new CreateMovieByTitleCommand(princessMononokeTitle)))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -186,7 +183,7 @@ class MovieControllerTest {
         when(createMovieFromTitle.execute(eq(invalidTitle))).thenThrow(new NoSuchResourceException(Movie.class, invalidTitle));
 
         // Act + Assert
-        this.mockMvc.perform(RestDocumentationRequestBuilders.post("/")
+        this.mockMvc.perform(RestDocumentationRequestBuilders.post("/movies")
                 .content(jsonMapper.writeValueAsString(new CreateMovieByTitleCommand(invalidTitle)))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -200,7 +197,7 @@ class MovieControllerTest {
         when(createMovieFromTitle.execute(alreadyExistingMovie)).thenThrow(new ResourceAlreadyExistsException(Movie.class, alreadyExistingMovie));
 
         // Act + Assert
-        this.mockMvc.perform(RestDocumentationRequestBuilders.post("/")
+        this.mockMvc.perform(RestDocumentationRequestBuilders.post("/movies")
                 .content(jsonMapper.writeValueAsString(new CreateMovieByTitleCommand(alreadyExistingMovie)))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict());

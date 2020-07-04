@@ -33,11 +33,11 @@ public class MovieController {
     private final static Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     @PostMapping(
-            value = "/",
+            value = "/movies",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<MovieDto> create(
+    public ResponseEntity<MovieDto> createMovie(
             @RequestBody CreateMovieByTitleCommand command
     ) throws NoSuchResourceException, ResourceAlreadyExistsException {
         String title = command.getTitle();
@@ -48,18 +48,18 @@ public class MovieController {
                 .body(mapper.fromDomain(createdMovie));
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MovieDto> getById(@PathVariable String id) throws NoSuchResourceException {
+    @GetMapping(value = "/movies/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MovieDto> getMovieById(@PathVariable String id) throws NoSuchResourceException {
         Movie movie = getMovie.execute(id);
         return ResponseEntity.ok(mapper.fromDomain(movie));
     }
 
     @PutMapping(
-            value = "/{id}",
+            value = "/movies/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<MovieDto> update(@RequestBody UpdateMovieCommand movieDtoUpdate, @PathVariable String id)
+    public ResponseEntity<MovieDto> updateMovie(@RequestBody UpdateMovieCommand movieDtoUpdate, @PathVariable String id)
             throws NoSuchResourceException {
         Movie updateCommand = mapper.toDomain(movieDtoUpdate, id);
         Movie updatedMovie = updateMovie.execute(updateCommand);
@@ -68,16 +68,16 @@ public class MovieController {
         return ResponseEntity.ok(updatedMovieDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) throws NoSuchResourceException {
+    @DeleteMapping("/movies/{id}")
+    public ResponseEntity<Void> deleteMovie(@PathVariable String id) throws NoSuchResourceException {
         deleteMovie.execute(id);
 
         return ResponseEntity.noContent()
                 .build();
     }
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MovieDto> getAll() {
+    @GetMapping(value = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MovieDto> getAllMovies() {
         logger.warn("get all movie not implemented");
         return List.of();
     }

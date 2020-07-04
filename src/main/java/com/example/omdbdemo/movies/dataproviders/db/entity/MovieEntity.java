@@ -1,13 +1,13 @@
 package com.example.omdbdemo.movies.dataproviders.db.entity;
 
+import com.example.omdbdemo.comments.dataproviders.db.entity.CommentEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "movie")
@@ -31,4 +31,8 @@ public class MovieEntity {
     // FIXME: extract those to lists
     private String awards;
     private String actors;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "movie_id")
+    Set<CommentEntity> comments;
 }

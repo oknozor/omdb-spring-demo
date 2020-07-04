@@ -5,6 +5,7 @@ import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 
 public class MovieFixture {
     public static String ALIEN_ID = "Alien_imdb_id";
+    public static String MONONOKE_ID = "Mononoke_imdb_id";
 
     public static MovieEntity getAlienEntity() {
         return new MovieEntity()
@@ -64,7 +65,23 @@ public class MovieFixture {
 
     public static Movie getPrincessMononoke() {
         return new Movie()
-                .withId("123")
+                .withId(MONONOKE_ID)
+                .withTitle("Mononoke Hime")
+                .withRelease("1994")
+                .withLanguage("Japanese")
+                .withRuntime("2H")
+                .withWriter("Miyazaki")
+                .withPlot("Prince Ashitaka on a journey to heal is cursed wound")
+                .withGenre("Japanese Animation")
+                .withCountry("Japan")
+                .withDirector("Ayaho Miyazaki")
+                .withActors("Brad Pit")
+                .withAwards("Best animation movie all of time");
+    }
+
+    public static MovieEntity getPrincessMononokeEntity() {
+        return new MovieEntity()
+                .withId(MONONOKE_ID)
                 .withTitle("Mononoke Hime")
                 .withRelease("1994")
                 .withLanguage("Japanese")

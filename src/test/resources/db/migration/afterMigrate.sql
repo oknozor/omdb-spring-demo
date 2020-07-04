@@ -9,3 +9,6 @@ VALUES ('Alien_imdb_id', 'Alien', '1979', '22 Jun 1979', 'Horror, Sci-Fi', 'Ridl
         'English', 'UK, USA', 'Won 1 Oscar. Another 16 wins & 21 nominations.', '117 min')
 on conflict do nothing;
 
+INSERT INTO comment(id, movie_id, body) VALUES (1, 'Alien_imdb_id', 'Cannot wait for the sequel')
+on conflict do nothing;
+

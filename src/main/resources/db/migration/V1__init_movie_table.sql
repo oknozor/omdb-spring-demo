@@ -1,6 +1,6 @@
-CREATE TABLE movie
+CREATE TABLE IF NOT EXISTS movie
 (
-    id       VARCHAR(100) primary key,
+    id       VARCHAR(100) PRIMARY KEY,
     title    VARCHAR(100),
     year     VARCHAR(5),
     runtime  VARCHAR(20),

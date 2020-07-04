@@ -1,8 +1,8 @@
 package com.example.omdbdemo.movies.dataproviders.db.repository;
 
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
-import com.example.omdbdemo.config.annotation.DatabaseTest;
 import com.example.omdbdemo.config.SharedPostgresqlContainer;
+import com.example.omdbdemo.config.annotation.DatabaseTest;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ class MovieDatabaseProviderDatabaseTest {
         Movie createdMovie = movieDatabaseProvider.createOrUpdate(mononokeHime);
 
         // Assert
-        assertThat(createdMovie.getId()).isEqualTo("123");
+        assertThat(createdMovie.getId()).isEqualTo(MovieFixture.MONONOKE_ID);
         assertThat(createdMovie.getTitle()).isEqualTo("Mononoke Hime");
         assertThat(createdMovie.getRelease()).isEqualTo("1994");
         assertThat(createdMovie.getLanguage()).isEqualTo("Japanese");

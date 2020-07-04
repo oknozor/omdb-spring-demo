@@ -2,6 +2,7 @@ package com.example.omdbdemo.movies.core.usecase;
 
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
 import com.example.omdbdemo.common.core.exception.ResourceAlreadyExistsException;
+import com.example.omdbdemo.config.annotation.UseCaseUnitTest;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.port.MovieFetcher;
 import com.example.omdbdemo.movies.core.port.MovieProvider;
@@ -9,9 +10,7 @@ import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
@@ -20,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(SpringExtension.class)
+@UseCaseUnitTest
 class CreateMovieFromTitleTest {
 
     CreateMovieFromTitle createMovieFromTitle;

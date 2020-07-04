@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @MapperTest
 class MovieEntityMapperTest {
+
     @Autowired
     MovieEntityMapper movieEntityMapper;
 

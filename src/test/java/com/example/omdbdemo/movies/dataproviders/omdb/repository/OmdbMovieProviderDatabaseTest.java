@@ -1,7 +1,6 @@
 package com.example.omdbdemo.movies.dataproviders.omdb.repository;
 
 import com.example.omdbdemo.config.annotation.HttpClientTest;
-import com.example.omdbdemo.config.annotation.MapperTest;
 import com.example.omdbdemo.movies.core.model.Movie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

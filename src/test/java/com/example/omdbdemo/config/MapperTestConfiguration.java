@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
         "com.example.omdbdemo.movies.dataproviders.db.entity.mapper",
         "com.example.omdbdemo.movies.dataproviders.omdb.entity.mapper",
         "com.example.omdbdemo.movies.entrypoints.dto.mapper",
+        "com.example.omdbdemo.comments.dataproviders.db.entity.mapper",
+        "com.example.omdbdemo.comments.entrypoints.dto.mapper",
 })
 @TestConfiguration
 public class MapperTestConfiguration {
