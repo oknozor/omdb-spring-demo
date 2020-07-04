@@ -1,6 +1,6 @@
 package com.example.omdbdemo.movies.entrypoints;
 
-import com.example.omdbdemo.config.MapperTest;
+import com.example.omdbdemo.config.annotation.RestTest;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.usecase.CreateMovieFromTitle;
 import com.example.omdbdemo.movies.core.usecase.DeleteMovie;
@@ -11,12 +11,9 @@ import com.example.omdbdemo.movies.entrypoints.dto.MovieDto;
 import com.example.omdbdemo.movies.entrypoints.dto.mapper.MovieDtoMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,10 +22,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
+@RestTest
 @WebMvcTest(MovieController.class)
-@MapperTest
-@EnableSpringDataWebSupport
 class MovieControllerTest {
     @Autowired
     private MockMvc mockMvc;

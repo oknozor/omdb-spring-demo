@@ -1,7 +1,7 @@
 package com.example.omdbdemo.movies.dataproviders.db.repository;
 
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
-import com.example.omdbdemo.config.IntegrationTest;
+import com.example.omdbdemo.config.annotation.DatabaseTest;
 import com.example.omdbdemo.config.SharedPostgresqlContainer;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
@@ -17,9 +17,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@IntegrationTest
+@DatabaseTest
 @Import({MovieDatabaseProvider.class})
-class MovieDatabaseProviderIntegrationTest {
+class MovieDatabaseProviderDatabaseTest {
 
     @Container
     public static PostgreSQLContainer<?> postgreSQLContainer = SharedPostgresqlContainer.getInstance();

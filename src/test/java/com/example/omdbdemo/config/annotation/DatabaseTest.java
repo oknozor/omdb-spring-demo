@@ -1,4 +1,4 @@
-package com.example.omdbdemo.config;
+package com.example.omdbdemo.config.annotation;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface IntegrationTest {
+public @interface DatabaseTest {
 }
