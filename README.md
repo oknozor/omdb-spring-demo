@@ -56,3 +56,7 @@ You will also need at least java OpenJdK 14, please refer to your specific OS do
 ### Author 
    
 Paul Delafosse
+
+### Licence
+
+This project is licenced under the [MIT Licence](LICENCE)
