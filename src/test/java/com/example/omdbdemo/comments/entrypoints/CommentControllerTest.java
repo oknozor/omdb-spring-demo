@@ -11,6 +11,9 @@ import com.example.omdbdemo.config.annotation.RestTest;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.model.MovieFixture;
 import com.example.omdbdemo.movies.entrypoints.dto.mapper.MovieDtoMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +26,6 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -63,6 +65,8 @@ class CommentControllerTest {
             WebApplicationContext webApplicationContext,
             RestDocumentationContextProvider restDocumentation
     ) {
+        jsonMapper = jsonMapper.registerModule(new JavaTimeModule());
+        jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentation))
                 .alwaysDo(document("{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
@@ -77,10 +81,11 @@ class CommentControllerTest {
         when(getAllComments.execute()).thenReturn(allComments);
 
         // Act + Assert
+        String jsonContent = jsonMapper.writeValueAsString(commentMapper.fromDomain(allComments));
         this.mockMvc.perform(RestDocumentationRequestBuilders.get("/comments")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(jsonMapper.writeValueAsString(commentMapper.fromDomain(allComments))))
+                .andExpect(content().json(jsonContent))
                 .andDo(document("comment-read-all-example",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));

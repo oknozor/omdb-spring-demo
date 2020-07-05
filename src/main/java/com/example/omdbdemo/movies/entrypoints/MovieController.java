@@ -29,6 +29,7 @@ import java.util.List;
 public class MovieController {
     private final CreateMovieFromTitle createMovieFromTitle;
     private final GetMovie getMovie;
+    private final GetAllMovie getAllMovie;
     private final UpdateMovie updateMovie;
     private final DeleteMovie deleteMovie;
     private final GetMovieComments getMovieComment;
@@ -92,9 +93,8 @@ public class MovieController {
     }
 
     @GetMapping(value = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MovieDto> getAllMovies() {
-        logger.warn("get all movie not implemented");
-        return List.of();
+    public ResponseEntity<List<MovieDto>> getAllMovies() {
+        return ResponseEntity.ok(movieMapper.toDto(getAllMovie.execute()));
     }
 
     @GetMapping(value = "/movies/top", produces = MediaType.APPLICATION_JSON_VALUE)

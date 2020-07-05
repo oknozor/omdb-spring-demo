@@ -12,6 +12,9 @@ import com.example.omdbdemo.movies.entrypoints.dto.MovieDto;
 import com.example.omdbdemo.movies.entrypoints.dto.MovieRankingDto;
 import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 import com.example.omdbdemo.movies.entrypoints.dto.mapper.MovieDtoMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +27,6 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -52,6 +54,7 @@ class MovieControllerTest {
 
     @Autowired
     MovieDtoMapper movieMapper;
+
     @Autowired
     CommentDtoMapper commentMapper;
 
@@ -59,6 +62,8 @@ class MovieControllerTest {
     CreateMovieFromTitle createMovieFromTitle;
     @MockBean
     GetMovie getMovie;
+    @MockBean
+    GetAllMovie getAllMovie;
     @MockBean
     UpdateMovie updateMovie;
     @MockBean
@@ -75,6 +80,9 @@ class MovieControllerTest {
             WebApplicationContext webApplicationContext,
             RestDocumentationContextProvider restDocumentation
     ) {
+        jsonMapper = jsonMapper.registerModule(new JavaTimeModule());
+        jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentation))
                 .alwaysDo(document("{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
@@ -97,6 +105,24 @@ class MovieControllerTest {
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
                                 pathParameters(parameterWithName("id").description("The imdb id of the movie to retrieve"))));
+    }
+
+    @Test
+    @DisplayName("Should get all movies")
+    void getAllMovieOk() throws Exception {
+        // Arrange
+        List<Movie> allMovies = List.of(MovieFixture.getAlien(), MovieFixture.getPrincessMononoke());
+        when(getAllMovie.execute()).thenReturn(allMovies);
+        List<MovieDto> allMovieDtos = movieMapper.toDto(allMovies);
+
+        // Act + Assert
+        String jsonContent = jsonMapper.writeValueAsString(allMovieDtos);
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonContent))
+                .andDo(document("movie-read-all-example",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
     }
 
     @Test

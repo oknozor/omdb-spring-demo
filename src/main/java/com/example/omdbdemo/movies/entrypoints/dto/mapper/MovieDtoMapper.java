@@ -1,5 +1,6 @@
 package com.example.omdbdemo.movies.entrypoints.dto.mapper;
 
+import com.example.omdbdemo.comments.entrypoints.dto.mapper.CommentDtoMapper;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.model.MovieRanking;
 import com.example.omdbdemo.movies.entrypoints.dto.MovieDto;
@@ -10,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = CommentDtoMapper.class)
 public interface MovieDtoMapper {
     Movie toDomain(MovieDto dto);
     List<Movie> toDomain(List<MovieDto> dtos);
