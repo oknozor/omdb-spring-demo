@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,5 +26,5 @@ public class Movie {
     private String language;
     private String country;
     private String awards;
-    private Set<Comment> comments;
+    private List<Comment> comments;
 }

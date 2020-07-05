@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class GlobalExceptionHandlerController {
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandlerController.class);
+public class GlobalControllerConfig {
+    private static final Logger logger = LoggerFactory.getLogger(GlobalControllerConfig.class);
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorDto> handleBusinessException(BusinessException exception) {

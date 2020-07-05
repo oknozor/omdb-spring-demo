@@ -1,5 +1,6 @@
 package com.example.omdbdemo.movies.core.usecase;
 
+import com.example.omdbdemo.comments.core.model.Comment;
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
 import com.example.omdbdemo.config.annotation.UseCaseUnitTest;
 import com.example.omdbdemo.movies.core.model.Movie;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,42 +22,43 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @UseCaseUnitTest
-class GetMovieTest {
-
-    GetMovie getMovie;
+class GetMovieCommentsTest {
+    GetMovieComments getMovieComments;
 
     @MockBean
     MovieProvider movieProvider;
 
     @BeforeEach
     void setUp() {
-        this.getMovie = new GetMovie(movieProvider);
+        this.getMovieComments = new GetMovieComments(movieProvider);
     }
 
     @Test
-    @DisplayName("Should get movie by its id")
+    @DisplayName("Should get comments for a movie")
     void setGetMovieOk() throws NoSuchResourceException {
         // Arrange
         Movie alien = MovieFixture.getAlien();
         when(movieProvider.byId(any())).thenReturn(Optional.of(alien));
 
         // Act
-        Movie movie = getMovie.execute(alien.getId());
+        List<Comment> comments = getMovieComments.execute(alien.getId());
 
         // Assert
         verify(movieProvider).byId(eq(alien.getId()));
-        assertThat(movie.getTitle()).isEqualTo("Alien");
+        assertThat(comments).hasSize(1);
+        assertThat(comments).extracting("body").containsExactlyInAnyOrder("Cannot wait for the sequel");
+
     }
 
 
     @Test
     @DisplayName("Should thrown no such resource when movie is not present")
-    void getMovieFails() throws NoSuchResourceException {
+    void getMovieFails() {
         // Arrange
         String invalidId = "La moustache";
         when(movieProvider.byId(any())).thenReturn(Optional.empty());
 
         // Act + Assert
-        assertThatThrownBy(() -> getMovie.execute(invalidId)).isInstanceOf(NoSuchResourceException.class);
+        assertThatThrownBy(() -> getMovieComments.execute(invalidId)).isInstanceOf(NoSuchResourceException.class);
     }
 }

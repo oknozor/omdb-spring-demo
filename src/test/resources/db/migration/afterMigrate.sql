@@ -9,6 +9,8 @@ VALUES ('tt0078748', 'Alien', '1979', '22 Jun 1979', 'Horror, Sci-Fi', 'Ridley S
         'English', 'UK, USA', 'Won 1 Oscar. Another 16 wins & 21 nominations.', '117 min')
 on conflict do nothing;
 
-INSERT INTO comment(id, movie_id, body) VALUES (1, 'tt0078748', 'Cannot wait for the sequel')
+INSERT INTO comment(id, movie_id, body, created) VALUES (1, 'tt0078748', 'Cannot wait for the sequel', current_timestamp)
+on conflict do nothing;
+INSERT INTO comment(id, movie_id, body, created) VALUES (1, 'tt0078748', 'An old comment', timestamp '2019-07-05 00:00:00')
 on conflict do nothing;
 

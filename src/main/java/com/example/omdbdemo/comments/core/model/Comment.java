@@ -1,15 +1,22 @@
 package com.example.omdbdemo.comments.core.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
+@With
 public class Comment {
+
+    public Comment(String body, String movieId) {
+        this.body = body;
+        this.movieId = movieId;
+    }
+
     private String body;
     private String movieId;
+    private LocalDateTime created;
 }

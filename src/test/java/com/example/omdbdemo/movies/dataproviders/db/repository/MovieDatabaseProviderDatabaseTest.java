@@ -1,10 +1,12 @@
 package com.example.omdbdemo.movies.dataproviders.db.repository;
 
+import com.example.omdbdemo.comments.core.model.CommentFixture;
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
 import com.example.omdbdemo.config.SharedPostgresqlContainer;
 import com.example.omdbdemo.config.annotation.DatabaseTest;
 import com.example.omdbdemo.movies.core.model.Movie;
-import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
+import com.example.omdbdemo.movies.core.model.MovieFixture;
+import com.example.omdbdemo.movies.core.model.MovieRanking;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,5 +144,74 @@ class MovieDatabaseProviderDatabaseTest {
         // tests are run asynchronously, there might be more than one movie in the container db
         assertThat(movies).hasSizeGreaterThan(1);
         assertThat(movies.stream().map(Movie::getTitle)).contains("Alien");
+    }
+
+    @Test
+    @DisplayName("Should get all movies rankings ")
+    void getAllByCommentCountOk() {
+        // Arrange
+        // Alien 1 has One Comment
+        // Alien 2 has Two Comments
+        String alien2Id = "Alien 2";
+        movieDatabaseProvider.createOrUpdate(MovieFixture.getAlien()
+                .withId(alien2Id)
+                .withComments(List.of(
+                        CommentFixture.getCommentWithMovieId(alien2Id),
+                        CommentFixture.getCommentWithMovieId(alien2Id))));
+
+        // Alien 3 has Three Comments
+        String alien3ID = "Alien 3";
+        movieDatabaseProvider.createOrUpdate(MovieFixture.getAlien()
+                .withId(alien3ID)
+                .withComments(List.of(
+                        CommentFixture.getCommentWithMovieId(alien3ID),
+                        CommentFixture.getCommentWithMovieId(alien3ID),
+                        CommentFixture.getCommentWithMovieId(alien3ID))));
+
+        // Alien 4 has Three Comments
+        String alien4Id = "Alien 4";
+        movieDatabaseProvider.createOrUpdate(MovieFixture.getAlien()
+                .withId(alien4Id)
+                .withComments(List.of(
+                        CommentFixture.getCommentWithMovieId(alien4Id),
+                        CommentFixture.getCommentWithMovieId(alien4Id),
+                        CommentFixture.getCommentWithMovieId(alien4Id))));
+
+        // Mononoke has more comments
+        String princessMononokeId = "Princess Mononoke";
+        movieDatabaseProvider.createOrUpdate(MovieFixture.getPrincessMononoke()
+                .withId(princessMononokeId)
+                .withComments(List.of(
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId)
+                )));
+
+        // Act
+        List<MovieRanking> rankings = movieDatabaseProvider.getRankings();
+
+        // Assert
+        assertThat(rankings).extracting("movieId").containsExactly("Princess Mononoke", "Alien 4", "Alien 3", "Alien 2", MovieFixture.ALIEN_ID);
+        assertThat(rankings).extracting("totalComments").containsExactly(6, 3, 3, 2, 1);
+        assertThat(rankings).extracting("rank").containsExactly(1, 2, 2, 3, 4);
+    }
+
+    @Test
+    @DisplayName("Should get all movies rankings from last week")
+    void getAllByCommentCountAndDateIntervalOk() {
+        // Arrange
+        // Creation time stamp are read only, we are using comments for alien
+        // From the afterMigrate script here, one from today and one from last year
+
+        // Act
+        List<MovieRanking> rankings = movieDatabaseProvider.getRankingsWithInterval(LocalDate.now().minusDays(7), LocalDate.now());
+
+        // Assert
+        assertThat(rankings).extracting("movieId").containsExactly(MovieFixture.ALIEN_ID);
+        assertThat(rankings).extracting("totalComments").containsExactly(1);
+        assertThat(rankings).extracting("rank").containsExactly(1);
     }
 }

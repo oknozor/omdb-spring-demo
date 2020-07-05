@@ -4,7 +4,7 @@ import com.example.omdbdemo.comments.core.model.Comment;
 import com.example.omdbdemo.config.SharedPostgresqlContainer;
 import com.example.omdbdemo.config.annotation.DatabaseTest;
 import com.example.omdbdemo.movies.core.model.Movie;
-import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
+import com.example.omdbdemo.movies.core.model.MovieFixture;
 import com.example.omdbdemo.movies.dataproviders.db.repository.MovieDatabaseProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

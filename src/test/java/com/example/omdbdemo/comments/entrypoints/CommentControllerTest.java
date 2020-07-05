@@ -9,7 +9,7 @@ import com.example.omdbdemo.comments.entrypoints.dto.mapper.CommentDtoMapper;
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
 import com.example.omdbdemo.config.annotation.RestTest;
 import com.example.omdbdemo.movies.core.model.Movie;
-import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
+import com.example.omdbdemo.movies.core.model.MovieFixture;
 import com.example.omdbdemo.movies.entrypoints.dto.mapper.MovieDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

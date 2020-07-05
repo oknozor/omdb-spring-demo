@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comment")
@@ -22,4 +24,7 @@ public class CommentEntity {
     private String movieId;
 
     private String body;
+
+    @CreationTimestamp
+    private LocalDateTime created;
 }

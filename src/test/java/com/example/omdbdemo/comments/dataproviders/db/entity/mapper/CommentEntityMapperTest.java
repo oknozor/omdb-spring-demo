@@ -4,7 +4,7 @@ import com.example.omdbdemo.comments.core.model.Comment;
 import com.example.omdbdemo.comments.core.model.CommentFixture;
 import com.example.omdbdemo.comments.dataproviders.db.entity.CommentEntity;
 import com.example.omdbdemo.config.annotation.MapperTest;
-import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
+import com.example.omdbdemo.movies.core.model.MovieFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

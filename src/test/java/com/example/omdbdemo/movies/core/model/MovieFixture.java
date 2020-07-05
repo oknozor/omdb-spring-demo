@@ -1,11 +1,10 @@
-package com.example.omdbdemo.movies.dataproviders.db.entity;
+package com.example.omdbdemo.movies.core.model;
 
 import com.example.omdbdemo.comments.core.model.CommentFixture;
-import com.example.omdbdemo.movies.core.model.Movie;
+import com.example.omdbdemo.movies.dataproviders.db.entity.MovieEntity;
 import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 
 import java.util.List;
-import java.util.Set;
 
 public class MovieFixture {
     public static String ALIEN_ID = "tt0078748";
@@ -46,7 +45,8 @@ public class MovieFixture {
                         "merely begun.'")
                 .withLanguage("English")
                 .withCountry("UK, USA")
-                .withAwards("Won 1 Oscar. Another 16 wins & 21 nominations.");
+                .withAwards("Won 1 Oscar. Another 16 wins & 21 nominations.")
+                .withComments(List.of(CommentFixture.getCommentForAlien()));
     }
 
     public static UpdateMovieCommand updateAlienWithGerardDePardieu() {
@@ -81,23 +81,21 @@ public class MovieFixture {
                 .withDirector("Ayaho Miyazaki")
                 .withActors("Brad Pit")
                 .withAwards("Best animation movie all of time")
-                .withComments(Set.of(CommentFixture.getCommentForMononoke()));
+                .withComments(List.of(CommentFixture.getCommentForMononoke()));
     }
 
-    public static MovieEntity getPrincessMononokeEntity() {
-        return new MovieEntity()
-                .withId(MONONOKE_ID)
-                .withTitle("Mononoke Hime")
-                .withRelease("1994")
-                .withLanguage("Japanese")
-                .withRuntime("2H")
-                .withWriter("Miyazaki")
-                .withPlot("Prince Ashitaka on a journey to heal is cursed wound")
-                .withGenre("Japanese Animation")
-                .withCountry("Japan")
-                .withDirector("Ayaho Miyazaki")
-                .withActors("Brad Pit")
-                .withAwards("Best animation movie all of time")
-                .withComments(Set.of(CommentFixture.getCommentEntityForMononoke()));
+    public static List<MovieRanking> rankings() {
+        return List.of(
+                MovieRanking.builder()
+                        .rank(1)
+                        .totalComments(12)
+                        .movieId(MONONOKE_ID)
+                        .build(),
+                MovieRanking.builder()
+                        .rank(2)
+                        .totalComments(5)
+                        .movieId(ALIEN_ID)
+                        .build()
+        );
     }
 }

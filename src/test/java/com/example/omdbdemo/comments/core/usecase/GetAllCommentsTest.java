@@ -3,6 +3,7 @@ package com.example.omdbdemo.comments.core.usecase;
 import com.example.omdbdemo.comments.core.model.Comment;
 import com.example.omdbdemo.comments.core.model.CommentFixture;
 import com.example.omdbdemo.comments.core.port.CommentProvider;
+import com.example.omdbdemo.movies.core.model.MovieFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,5 +41,7 @@ class GetAllCommentsTest {
         // Assert
         assertThat(allComments).extracting("body")
                 .containsExactlyInAnyOrder("Best movie ever", "Cannot wait for the sequel");
+        assertThat(allComments).extracting("movieId")
+                .containsExactlyInAnyOrder(MovieFixture.MONONOKE_ID, MovieFixture.ALIEN_ID);
     }
 }

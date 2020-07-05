@@ -19,6 +19,13 @@ include::{snippets}/movie-read-example/response-body.adoc[]
 include::{snippets}/movie-read-example/curl-request.adoc[]
 ===== Httpie
 include::{snippets}/movie-read-example/httpie-request.adoc[]
+==== Subresources
+===== Comments
+include::{snippets}/movie-comments-read-example/response-body.adoc[]
+====== Curl
+include::{snippets}/movie-comments-read-example/curl-request.adoc[]
+====== Httpie
+include::{snippets}/movie-comments-read-example/httpie-request.adoc[]
 
 
 === Update

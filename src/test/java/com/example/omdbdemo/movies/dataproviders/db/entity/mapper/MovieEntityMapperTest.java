@@ -2,8 +2,8 @@ package com.example.omdbdemo.movies.dataproviders.db.entity.mapper;
 
 import com.example.omdbdemo.config.annotation.MapperTest;
 import com.example.omdbdemo.movies.core.model.Movie;
+import com.example.omdbdemo.movies.core.model.MovieFixture;
 import com.example.omdbdemo.movies.dataproviders.db.entity.MovieEntity;
-import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

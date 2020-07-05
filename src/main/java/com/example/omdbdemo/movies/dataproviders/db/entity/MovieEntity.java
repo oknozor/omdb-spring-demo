@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.With;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "movie")
@@ -34,5 +34,5 @@ public class MovieEntity {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "movie_id")
-    Set<CommentEntity> comments;
+    List<CommentEntity> comments;
 }

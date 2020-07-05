@@ -4,7 +4,7 @@ import com.example.omdbdemo.comments.core.model.Comment;
 import com.example.omdbdemo.comments.core.port.CommentProvider;
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
 import com.example.omdbdemo.config.annotation.UseCaseUnitTest;
-import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
+import com.example.omdbdemo.movies.core.model.MovieFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

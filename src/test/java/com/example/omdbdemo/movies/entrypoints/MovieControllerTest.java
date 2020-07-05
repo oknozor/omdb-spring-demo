@@ -1,16 +1,15 @@
 package com.example.omdbdemo.movies.entrypoints;
 
+import com.example.omdbdemo.comments.entrypoints.dto.mapper.CommentDtoMapper;
 import com.example.omdbdemo.common.core.exception.NoSuchResourceException;
 import com.example.omdbdemo.common.core.exception.ResourceAlreadyExistsException;
 import com.example.omdbdemo.config.annotation.RestTest;
 import com.example.omdbdemo.movies.core.model.Movie;
-import com.example.omdbdemo.movies.core.usecase.CreateMovieFromTitle;
-import com.example.omdbdemo.movies.core.usecase.DeleteMovie;
-import com.example.omdbdemo.movies.core.usecase.GetMovie;
-import com.example.omdbdemo.movies.core.usecase.UpdateMovie;
-import com.example.omdbdemo.movies.dataproviders.db.entity.MovieFixture;
+import com.example.omdbdemo.movies.core.model.MovieFixture;
+import com.example.omdbdemo.movies.core.usecase.*;
 import com.example.omdbdemo.movies.entrypoints.dto.CreateMovieByTitleCommand;
 import com.example.omdbdemo.movies.entrypoints.dto.MovieDto;
+import com.example.omdbdemo.movies.entrypoints.dto.MovieRankingDto;
 import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 import com.example.omdbdemo.movies.entrypoints.dto.mapper.MovieDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +25,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -48,16 +51,22 @@ class MovieControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    MovieDtoMapper mapper;
+    MovieDtoMapper movieMapper;
+    @Autowired
+    CommentDtoMapper commentMapper;
 
     @MockBean
     CreateMovieFromTitle createMovieFromTitle;
     @MockBean
     GetMovie getMovie;
     @MockBean
+    UpdateMovie updateMovie;
+    @MockBean
     DeleteMovie deleteMovie;
     @MockBean
-    UpdateMovie updateMovie;
+    GetMovieComments getMovieComments;
+    @MockBean
+    GetMovieRankings getMovieRankings;
 
     ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -78,7 +87,7 @@ class MovieControllerTest {
         // Arrange
         Movie alien = MovieFixture.getAlien();
         when(getMovie.execute(MovieFixture.ALIEN_ID)).thenReturn(alien);
-        MovieDto alienDto = mapper.fromDomain(alien);
+        MovieDto alienDto = movieMapper.toDto(alien);
 
         // Act + Assert
         this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies/{id}", MovieFixture.ALIEN_ID))
@@ -88,6 +97,18 @@ class MovieControllerTest {
                                 preprocessRequest(prettyPrint()),
                                 preprocessResponse(prettyPrint()),
                                 pathParameters(parameterWithName("id").description("The imdb id of the movie to retrieve"))));
+    }
+
+    @Test
+    @DisplayName("Getting a movie by its id should return 404 when it is not present")
+    void getMovieByIdFail() throws Exception {
+        // Arrange
+        String invalidId = "The expendable";
+        when(getMovie.execute(MovieFixture.ALIEN_ID)).thenThrow(new NoSuchResourceException(Movie.class, invalidId));
+
+        // Act + Assert
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies/{id}", MovieFixture.ALIEN_ID))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -108,7 +129,7 @@ class MovieControllerTest {
     void updateMovie() throws Exception {
         // Arrange
         UpdateMovieCommand alienWithGerardDepardieuUpdateCommand = MovieFixture.updateAlienWithGerardDePardieu();
-        Movie alienUpdated = mapper.toDomain(alienWithGerardDepardieuUpdateCommand, MovieFixture.ALIEN_ID);
+        Movie alienUpdated = movieMapper.toDomain(alienWithGerardDepardieuUpdateCommand, MovieFixture.ALIEN_ID);
         when(updateMovie.execute(alienUpdated)).thenReturn(alienUpdated);
 
         // Act + Assert
@@ -143,7 +164,7 @@ class MovieControllerTest {
         // Arrange
         String invalidId = "Blanche neige";
         UpdateMovieCommand alienWithGerardDepardieu = MovieFixture.updateAlienWithGerardDePardieu();
-        Movie unknownMovie = mapper.toDomain(alienWithGerardDepardieu, invalidId)
+        Movie unknownMovie = movieMapper.toDomain(alienWithGerardDepardieu, invalidId)
                 .withId(invalidId);
         when(updateMovie.execute(unknownMovie)).thenThrow(new NoSuchResourceException(Movie.class, unknownMovie.getId()));
 
@@ -202,5 +223,73 @@ class MovieControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict());
     }
+
+    @Test
+    @DisplayName("Should get a movie comments by its imdb id")
+    void getMovieCommentById() throws Exception {
+        // Arrange
+        Movie alien = MovieFixture.getAlien();
+        when(getMovieComments.execute(MovieFixture.ALIEN_ID)).thenReturn(alien.getComments());
+        MovieDto alienDto = movieMapper.toDto(alien);
+
+        // Act + Assert
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies/{id}/comments", MovieFixture.ALIEN_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonMapper.writeValueAsString(alienDto.getComments())))
+                .andDo(document("movie-comments-read-example",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("id").description("The imdb id of the movie to retrieve"))));
+    }
+
+    @Test
+    @DisplayName("Getting movie comments by its id should return 404 when it is not present")
+    void getMovieCommentByIdFail() throws Exception {
+        // Arrange
+        String invalidId = "The expendable";
+        when(getMovieComments.execute(MovieFixture.ALIEN_ID)).thenThrow(new NoSuchResourceException(Movie.class, invalidId));
+
+        // Act + Assert
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies/{id}/comments", MovieFixture.ALIEN_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Should get movie rankings")
+    void setGetMovieRankingsOk() throws Exception {
+        // Arrange
+        when(getMovieRankings.execute(null, null)).thenReturn(MovieFixture.rankings());
+
+        // Act + Assert
+        List<MovieRankingDto> expectedDtos = movieMapper.toRankingDto(MovieFixture.rankings());
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies/top"))
+                .andExpect(content().json(jsonMapper.writeValueAsString(expectedDtos)))
+                .andExpect(status().isOk())
+                .andDo(document("movie-ranking-example",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("Should get movie rankings between dates")
+    void setGetMovieRankingsIntervalOk() throws Exception {
+        // Arrange
+        LocalDate from = LocalDate.now().minusWeeks(1);
+        LocalDate to = LocalDate.now();
+        when(getMovieRankings.execute(from, to)).thenReturn(MovieFixture.rankings());
+
+        // Act + Assert
+        String jsonContent = jsonMapper.writeValueAsString(movieMapper.toRankingDto(MovieFixture.rankings()));
+
+        this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies/top")
+                .param("from", from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .param("to", to.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
+                .andExpect(content().json(jsonContent))
+                .andExpect(status().isOk())
+                .andDo(document("movie-ranking-interval-example",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
 
 }
