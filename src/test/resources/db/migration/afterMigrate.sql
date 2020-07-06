@@ -11,6 +11,6 @@ on conflict do nothing;
 
 INSERT INTO comment(id, movie_id, body, created) VALUES (1, 'tt0078748', 'Cannot wait for the sequel', current_timestamp)
 on conflict do nothing;
-INSERT INTO comment(id, movie_id, body, created) VALUES (1, 'tt0078748', 'An old comment', timestamp '2019-07-05 00:00:00')
+INSERT INTO comment(id, movie_id, body, created) VALUES (2, 'tt0078748', 'An old comment', timestamp '2011-05-16 15:36:38')
 on conflict do nothing;
 

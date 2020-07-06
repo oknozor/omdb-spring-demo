@@ -65,7 +65,7 @@ public class MovieDatabaseProvider implements MovieProvider {
     public List<MovieRanking> getRankingsWithInterval(LocalDate from, LocalDate to) {
 
         LocalDateTime toTime = to != null ? to.atStartOfDay().plusDays(1) : PGSQL_MAX_TIMESTAMP;
-        LocalDateTime fromTime = to != null ? from.atStartOfDay() : PGSQL_MIN_TIMESTAMP;
+        LocalDateTime fromTime = from != null ? from.atStartOfDay() : PGSQL_MIN_TIMESTAMP;
         List<MovieRankingEntity> rankingEntities = rankingRepository.getRankingsWithInterval(fromTime, toTime);
 
         return rankingMapper.toDomain(rankingEntities);

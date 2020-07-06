@@ -194,9 +194,9 @@ class MovieDatabaseProviderDatabaseTest {
         List<MovieRanking> rankings = movieDatabaseProvider.getRankings();
 
         // Assert
-        assertThat(rankings).extracting("movieId").containsExactly("Princess Mononoke", "Alien 4", "Alien 3", "Alien 2", MovieFixture.ALIEN_ID);
-        assertThat(rankings).extracting("totalComments").containsExactly(6, 3, 3, 2, 1);
-        assertThat(rankings).extracting("rank").containsExactly(1, 2, 2, 3, 4);
+        assertThat(rankings).extracting("movieId").contains("Princess Mononoke", "Alien 4", "Alien 3", "Alien 2", MovieFixture.ALIEN_ID);
+        assertThat(rankings).extracting("totalComments").containsExactly(6, 3, 3, 2, 2);
+        assertThat(rankings).extracting("rank").containsExactly(1, 2, 2, 3, 3);
     }
 
     @Test
