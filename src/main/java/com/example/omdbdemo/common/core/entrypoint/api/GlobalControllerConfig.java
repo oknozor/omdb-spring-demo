@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @ControllerAdvice
 public class GlobalControllerConfig {
@@ -19,7 +20,7 @@ public class GlobalControllerConfig {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorDto> handleBusinessException(BusinessException exception) {
         ErrorDto errorDetails = ErrorDto.builder()
-                .date(LocalDateTime.now())
+                .date(LocalDateTime.now(ZoneOffset.UTC))
                 .message(exception.getMessage())
                 .build();
 

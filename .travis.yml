@@ -1,8 +1,11 @@
 language: java
+dist: bionic
+
 services:
   - docker
 jdk:
-  - openjdk14
+  - openjdk13
+
 addons:
   sonarcloud:
     organization: "oknozor"
