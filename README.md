@@ -1,4 +1,4 @@
-# Omdb Springboot Demo &emsp; [![Build Status]][travis] [![Quality Gate Status]][sonar] [![Coverage]][sonar]
+# Omdb Springboot Demo &emsp; [![Build Status]][travis] ![Java CI with Maven](https://github.com/oknozor/omdb-spring-demo/workflows/Java%20CI%20with%20Maven/badge.svg) [![Quality Gate Status]][sonar] [![Coverage]][sonar]
                        
 [Build Status]: https://travis-ci.com/oknozor/omdb-spring-demo.svg?branch=master
 [travis]: https://travis-ci.com/oknozor/omdb-spring-demo

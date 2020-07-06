@@ -6,6 +6,9 @@ import com.example.omdbdemo.config.annotation.DatabaseTest;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.model.MovieFixture;
 import com.example.omdbdemo.movies.dataproviders.db.repository.MovieDatabaseProvider;
+import org.junit.After;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,19 @@ class CommentDatabaseProviderTest {
     @Autowired
     MovieDatabaseProvider movieDatabaseProvider;
 
-    @Test@DisplayName("Should create comment")
+    @Autowired
+    CommentEntityRepository commentEntityRepository;
+
+    @AfterEach
+    public void cleanUp() {
+        commentEntityRepository.findAll().stream()
+                .filter(commentEntity -> commentEntity.getBody().equals("Better than Prometheus!"))
+                .findFirst()
+                .ifPresent(commentEntityRepository::delete);
+    }
+
+    @Test
+    @DisplayName("Should create comment")
     void createOk() {
         // Arrange
         Comment commentOnAlien = Comment.builder()
@@ -66,6 +81,7 @@ class CommentDatabaseProviderTest {
         // Assert
         assertThat(commentSaved).isNotPresent();
     }
+
     @Test
     @DisplayName("Should get all comments")
     void getAll() {

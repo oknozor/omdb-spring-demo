@@ -1,6 +1,7 @@
 package com.example.omdbdemo.movies.core.model;
 
 import com.example.omdbdemo.comments.core.model.CommentFixture;
+import com.example.omdbdemo.comments.dataproviders.db.entity.CommentEntity;
 import com.example.omdbdemo.movies.dataproviders.db.entity.MovieEntity;
 import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 public class MovieFixture {
     public static String ALIEN_ID = "tt0078748";
+    public static String INTERSTELLAR_ID = "tt0816692";
     public static String MONONOKE_ID = "tt0119698";
 
     public static MovieEntity getAlienEntity() {
@@ -26,7 +28,8 @@ public class MovieFixture {
                         "merely begun.'")
                 .withLanguage("English")
                 .withCountry("UK, USA")
-                .withAwards("Won 1 Oscar. Another 16 wins & 21 nominations.");
+                .withAwards("Won 1 Oscar. Another 16 wins & 21 nominations.")
+                .withComments(List.of(CommentFixture.getCommentEntityForAlien()));
     }
 
     public static Movie getAlien() {

@@ -4,7 +4,7 @@ dist: bionic
 services:
   - docker
 jdk:
-  - openjdk13
+  - openjdk14
 
 addons:
   sonarcloud:

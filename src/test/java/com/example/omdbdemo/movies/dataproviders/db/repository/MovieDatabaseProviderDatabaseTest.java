@@ -7,8 +7,7 @@ import com.example.omdbdemo.config.annotation.DatabaseTest;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.model.MovieFixture;
 import com.example.omdbdemo.movies.core.model.MovieRanking;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -22,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DatabaseTest
 @Import({MovieDatabaseProvider.class})
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MovieDatabaseProviderDatabaseTest {
 
     @Container
@@ -31,7 +31,67 @@ class MovieDatabaseProviderDatabaseTest {
     MovieDatabaseProvider movieDatabaseProvider;
 
     @Test
+    @DisplayName("Should get all movies rankings from last week")
+    @Order(1)
+    void getAllByCommentCountAndDateIntervalOk() {
+        // Arrange
+
+        // Act
+        List<MovieRanking> rankings = movieDatabaseProvider.getRankingsWithInterval(LocalDate.now().minusDays(7), LocalDate.now());
+
+        // Assert
+        assertThat(rankings).extracting("movieId").containsExactly(MovieFixture.ALIEN_ID);
+        assertThat(rankings).extracting("totalComments").containsExactly(1);
+        assertThat(rankings).extracting("rank").containsExactly(1);
+    }
+
+    @Test
+    @DisplayName("Should get all movies rankings ")
+    @Order(1)
+    void getAllByCommentCountOk() {
+        // Arrange
+
+        // Alien has 1 comment
+        // Interstelar has 1 comment
+
+
+        // Mononoke has more comments
+        String princessMononokeId = "Princess Mononoke";
+        movieDatabaseProvider.createOrUpdate(MovieFixture.getPrincessMononoke()
+                .withId(princessMononokeId)
+                .withComments(List.of(
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId),
+                        CommentFixture.getCommentWithMovieId(princessMononokeId)
+                )));
+
+        List<MovieRanking> rankings = movieDatabaseProvider.getRankings();
+
+        // Assert
+        assertThat(rankings).extracting("movieId").contains("Princess Mononoke", MovieFixture.ALIEN_ID, MovieFixture.INTERSTELLAR_ID);
+        assertThat(rankings).extracting("totalComments").containsExactly(6, 1, 1);
+        assertThat(rankings).extracting("rank").containsExactly(1, 2, 2);
+    }
+
+    @Test
+    @DisplayName("Should get all movies")
+    @Order(1)
+    void getAllOk() {
+        // Act
+        List<Movie> movies = movieDatabaseProvider.getAll();
+
+        // Assert
+        // tests are run asynchronously, there might be more than one movie in the container db
+        assertThat(movies).hasSize(3);
+        assertThat(movies.stream().map(Movie::getTitle)).contains("Alien");
+    }
+
+    @Test
     @DisplayName("Should create movie")
+    @Order(2)
     void createOk() {
         // Arrange
         Movie mononokeHime = MovieFixture.getPrincessMononoke();
@@ -56,6 +116,7 @@ class MovieDatabaseProviderDatabaseTest {
 
     @Test
     @DisplayName("Should get movie by id")
+    @Order(2)
     void byIdOk() {
         // Arrange
         String alienId = MovieFixture.ALIEN_ID;
@@ -70,6 +131,7 @@ class MovieDatabaseProviderDatabaseTest {
 
     @Test
     @DisplayName("Should not get movie when movie is not present")
+    @Order(2)
     void byIdFails() {
         // Arrange
         String invalidId = "Alien 4";
@@ -84,6 +146,7 @@ class MovieDatabaseProviderDatabaseTest {
 
     @Test
     @DisplayName("Should update movie")
+    @Order(2)
     void updateOk() {
         // Arrange
         Movie alienFrenchEdit = MovieFixture.getAlien()
@@ -96,20 +159,8 @@ class MovieDatabaseProviderDatabaseTest {
     }
 
     @Test
-    @DisplayName("Should delete movie")
-    void deleteOk() {
-        // Arrange
-        String alienId = MovieFixture.ALIEN_ID;
-
-        // Act
-        movieDatabaseProvider.delete(alienId);
-
-        // Assert
-        assertThat(movieDatabaseProvider.byId(alienId)).isNotPresent();
-    }
-
-    @Test
     @DisplayName("Alien the movie should exist")
+    @Order(2)
     void existByIdOk() throws NoSuchResourceException {
         // Arrange
         String alienId = MovieFixture.ALIEN_ID;
@@ -123,6 +174,7 @@ class MovieDatabaseProviderDatabaseTest {
 
     @Test
     @DisplayName("'La moustache'  the movie should not exist")
+    @Order(2)
     void existByIdFail() {
         // Arrange
         String invalidId = "La moustache";
@@ -135,83 +187,16 @@ class MovieDatabaseProviderDatabaseTest {
     }
 
     @Test
-    @DisplayName("Should get all movies")
-    void getAllOk() {
-        // Act
-        List<Movie> movies = movieDatabaseProvider.getAll();
-
-        // Assert
-        // tests are run asynchronously, there might be more than one movie in the container db
-        assertThat(movies).hasSizeGreaterThan(1);
-        assertThat(movies.stream().map(Movie::getTitle)).contains("Alien");
-    }
-
-    @Test
-    @DisplayName("Should get all movies rankings ")
-    void getAllByCommentCountOk() {
+    @DisplayName("Should delete movie")
+    @Order(2)
+    void deleteOk() {
         // Arrange
-        // Alien 1 has One Comment
-        // Alien 2 has Two Comments
-        String alien2Id = "Alien 2";
-        movieDatabaseProvider.createOrUpdate(MovieFixture.getAlien()
-                .withId(alien2Id)
-                .withComments(List.of(
-                        CommentFixture.getCommentWithMovieId(alien2Id),
-                        CommentFixture.getCommentWithMovieId(alien2Id))));
-
-        // Alien 3 has Three Comments
-        String alien3ID = "Alien 3";
-        movieDatabaseProvider.createOrUpdate(MovieFixture.getAlien()
-                .withId(alien3ID)
-                .withComments(List.of(
-                        CommentFixture.getCommentWithMovieId(alien3ID),
-                        CommentFixture.getCommentWithMovieId(alien3ID),
-                        CommentFixture.getCommentWithMovieId(alien3ID))));
-
-        // Alien 4 has Three Comments
-        String alien4Id = "Alien 4";
-        movieDatabaseProvider.createOrUpdate(MovieFixture.getAlien()
-                .withId(alien4Id)
-                .withComments(List.of(
-                        CommentFixture.getCommentWithMovieId(alien4Id),
-                        CommentFixture.getCommentWithMovieId(alien4Id),
-                        CommentFixture.getCommentWithMovieId(alien4Id))));
-
-        // Mononoke has more comments
-        String princessMononokeId = "Princess Mononoke";
-        movieDatabaseProvider.createOrUpdate(MovieFixture.getPrincessMononoke()
-                .withId(princessMononokeId)
-                .withComments(List.of(
-                        CommentFixture.getCommentWithMovieId(princessMononokeId),
-                        CommentFixture.getCommentWithMovieId(princessMononokeId),
-                        CommentFixture.getCommentWithMovieId(princessMononokeId),
-                        CommentFixture.getCommentWithMovieId(princessMononokeId),
-                        CommentFixture.getCommentWithMovieId(princessMononokeId),
-                        CommentFixture.getCommentWithMovieId(princessMononokeId)
-                )));
+        String alienId = MovieFixture.ALIEN_ID;
 
         // Act
-        List<MovieRanking> rankings = movieDatabaseProvider.getRankings();
+        movieDatabaseProvider.delete(alienId);
 
         // Assert
-        assertThat(rankings).extracting("movieId").contains("Princess Mononoke", "Alien 4", "Alien 3", "Alien 2", MovieFixture.ALIEN_ID);
-        assertThat(rankings).extracting("totalComments").containsExactly(6, 3, 3, 2, 2);
-        assertThat(rankings).extracting("rank").containsExactly(1, 2, 2, 3, 3);
-    }
-
-    @Test
-    @DisplayName("Should get all movies rankings from last week")
-    void getAllByCommentCountAndDateIntervalOk() {
-        // Arrange
-        // Creation time stamp are read only, we are using comments for alien
-        // From the afterMigrate script here, one from today and one from last year
-
-        // Act
-        List<MovieRanking> rankings = movieDatabaseProvider.getRankingsWithInterval(LocalDate.now().minusDays(7), LocalDate.now());
-
-        // Assert
-        assertThat(rankings).extracting("movieId").containsExactly(MovieFixture.ALIEN_ID);
-        assertThat(rankings).extracting("totalComments").containsExactly(1);
-        assertThat(rankings).extracting("rank").containsExactly(1);
+        assertThat(movieDatabaseProvider.byId(alienId)).isNotPresent();
     }
 }

@@ -282,7 +282,7 @@ class MovieControllerTest {
 
     @Test
     @DisplayName("Should get movie rankings")
-    void setGetMovieRankingsOk() throws Exception {
+    void getMovieRankingsOk() throws Exception {
         // Arrange
         when(getMovieRankings.execute(null, null)).thenReturn(MovieFixture.rankings());
 

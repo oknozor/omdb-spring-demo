@@ -45,3 +45,15 @@ include::{snippets}/movie-update-example/httpie-request.adoc[]
 include::{snippets}/movie-delete-example/curl-request.adoc[]
 ===== Httpie
 include::{snippets}/movie-delete-example/httpie-request.adoc[]
+
+=== Rank
+
+include::{snippets}/movie-ranking-interval-example/curl-request.adoc[]
+include::{snippets}/movie-ranking-interval-example/httpie-request.adoc[]
+include::{snippets}/movie-ranking-interval-example/response-body.adoc[]
+
+
+=== Get Comments
+include::{snippets}/get-movie-comment-by-id/curl-request.adoc[]
+include::{snippets}/get-movie-comment-by-id/httpie-request.adoc[]
+include::{snippets}/get-movie-comment-by-id/response-body.adoc[]
