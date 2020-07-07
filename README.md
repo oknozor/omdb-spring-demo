@@ -1,7 +1,5 @@
-# Omdb Springboot Demo &emsp; [![Build Status]][travis] ![Java CI with Maven](https://github.com/oknozor/omdb-spring-demo/workflows/Java%20CI%20with%20Maven/badge.svg) [![Quality Gate Status]][sonar] [![Coverage]][sonar]
+# Omdb Springboot Demo &emsp; ![Java CI with Maven](https://github.com/oknozor/omdb-spring-demo/workflows/Java%20CI%20with%20Maven/badge.svg) [![Quality Gate Status]][sonar] [![Coverage]][sonar]
                        
-[Build Status]: https://travis-ci.com/oknozor/omdb-spring-demo.svg?branch=master
-[travis]: https://travis-ci.com/oknozor/omdb-spring-demo
 [Quality Gate Status]: https://sonarcloud.io/api/project_badges/measure?project=oknozor_omdb-spring-demo&metric=alert_status
 [Coverage]: https://sonarcloud.io/api/project_badges/measure?project=oknozor_omdb-spring-demo&metric=coverage
 [sonar]: https://sonarcloud.io/dashboard?id=oknozor_omdb-spring-demo

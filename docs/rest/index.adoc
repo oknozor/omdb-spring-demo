@@ -9,7 +9,7 @@
 :sectnums:
 
 == Introduction
-This is documentation for the omdb demo Springboot API.
+This is the documentation for the omdb demo Springboot API.
 Note that all http resources, routes, parameters, requests and response use `snake_case`.
 
 === Resources
