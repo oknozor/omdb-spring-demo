@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController("/comments")
+@RestController("comments")
 @AllArgsConstructor
 public class CommentController {
     private final GetAllComments getAllComments;

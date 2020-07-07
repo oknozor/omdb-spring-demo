@@ -40,8 +40,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -104,9 +103,9 @@ class MovieControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(jsonMapper.writeValueAsString(alienDto)))
                 .andDo(document("movie-read-example",
-                                preprocessRequest(prettyPrint()),
-                                preprocessResponse(prettyPrint()),
-                                pathParameters(parameterWithName("id").description("The imdb id of the movie to retrieve"))));
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("id").description("The imdb id of the movie to retrieve"))));
     }
 
     @Test
@@ -305,10 +304,9 @@ class MovieControllerTest {
         LocalDate from = LocalDate.now().minusWeeks(1);
         LocalDate to = LocalDate.now();
         when(getMovieRankings.execute(from, to)).thenReturn(MovieFixture.rankings());
-
-        // Act + Assert
         String jsonContent = jsonMapper.writeValueAsString(movieMapper.toRankingDto(MovieFixture.rankings()));
 
+        // Act + Assert
         this.mockMvc.perform(RestDocumentationRequestBuilders.get("/movies/top")
                 .param("from", from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .param("to", to.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
@@ -316,7 +314,12 @@ class MovieControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("movie-ranking-interval-example",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("from").description("Beginning of the rank period interval (Optional)"),
+                                parameterWithName("to").description("End of the  rank period interval (Optional)"))
+                ));
+
     }
 
 

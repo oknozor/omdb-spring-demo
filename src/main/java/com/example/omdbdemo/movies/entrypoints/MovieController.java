@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController("/movies")
+@RestController("movies")
 @AllArgsConstructor
 public class MovieController {
     private final CreateMovieFromTitle createMovieFromTitle;

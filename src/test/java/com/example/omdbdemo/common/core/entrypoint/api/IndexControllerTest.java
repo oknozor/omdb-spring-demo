@@ -44,7 +44,8 @@ class IndexControllerTest {
     void indexDocumentation() throws Exception {
         this.mockMvc.perform(RestDocumentationRequestBuilders.get("/")).andExpect(status().isOk())
                 .andDo(document("index",
-                        links(linkWithRel("movie").description("The movie resource")),
+                        links(linkWithRel("movies").description("The movie resource"),
+                                linkWithRel("comments").description("The comment resource")),
                         responseFields(subsectionWithPath("_links")
                                 .description("Links to other resources")),
                         responseHeaders(headerWithName("Content-Type")

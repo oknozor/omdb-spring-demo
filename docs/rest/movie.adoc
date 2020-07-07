@@ -1,59 +1,102 @@
 == Movie
 
 === Create
-===== Request body
+==== Description
+
+Create a movie from its title on omdb api.
+
+==== Request body
 include::{snippets}/movie-create-example/request-body.adoc[]
 include::{snippets}/movie-create-example/request-fields.adoc[]
-===== Response body
+
+==== Response body
 include::{snippets}/movie-create-example/response-body.adoc[]
-===== Curl
+
+==== Curl
 include::{snippets}/movie-create-example/curl-request.adoc[]
-===== Httpie
+
+==== Httpie
 include::{snippets}/movie-create-example/httpie-request.adoc[]
 
 
 === Read
+==== Description
+
+Fetch a Movie from its imdb id.
+
+include::{snippets}/movie-read-example/path-parameters.adoc[]
+
 ===== Response body
 include::{snippets}/movie-read-example/response-body.adoc[]
-===== Curl
-include::{snippets}/movie-read-example/curl-request.adoc[]
-===== Httpie
-include::{snippets}/movie-read-example/httpie-request.adoc[]
-==== Subresources
-===== Comments
-include::{snippets}/movie-comments-read-example/response-body.adoc[]
-====== Curl
-include::{snippets}/movie-comments-read-example/curl-request.adoc[]
-====== Httpie
-include::{snippets}/movie-comments-read-example/httpie-request.adoc[]
 
+==== Curl
+include::{snippets}/movie-read-example/curl-request.adoc[]
+
+==== Httpie
+include::{snippets}/movie-read-example/httpie-request.adoc[]
 
 === Update
 
-===== Request body
+==== Description
+
+Update a movie.
+
+include::{snippets}/movie-update-example/path-parameters.adoc[]
+
+==== Request body
 include::{snippets}/movie-update-example/request-body.adoc[]
 include::{snippets}/movie-update-example/request-fields.adoc[]
-===== Response body
+
+==== Response body
 include::{snippets}/movie-update-example/response-body.adoc[]
-===== Curl
+
+==== Curl
 include::{snippets}/movie-update-example/curl-request.adoc[]
-===== Httpie
+
+==== Httpie
 include::{snippets}/movie-update-example/httpie-request.adoc[]
 
 === Delete
-===== Curl
+
+==== Description
+
+Delete a movie given its imdb id.
+
+include::{snippets}/movie-delete-example/path-parameters.adoc[]
+
+==== Curl
 include::{snippets}/movie-delete-example/curl-request.adoc[]
-===== Httpie
+==== Httpie
 include::{snippets}/movie-delete-example/httpie-request.adoc[]
-
-=== Rank
-
-include::{snippets}/movie-ranking-interval-example/curl-request.adoc[]
-include::{snippets}/movie-ranking-interval-example/httpie-request.adoc[]
-include::{snippets}/movie-ranking-interval-example/response-body.adoc[]
 
 
 === Get Comments
+
+==== Description
+
+Get comments for a movie given its imdb id.
+
+
+==== Curl
 include::{snippets}/get-movie-comment-by-id/curl-request.adoc[]
+==== Httpie
 include::{snippets}/get-movie-comment-by-id/httpie-request.adoc[]
+==== Response body
 include::{snippets}/get-movie-comment-by-id/response-body.adoc[]
+
+
+=== Rank
+
+==== Description
+
+Get a list of movie, ranked by number of comments within a given period.
+
+include::{snippets}/movie-ranking-interval-example/request-parameters.adoc[]
+
+==== Curl
+include::{snippets}/movie-ranking-interval-example/curl-request.adoc[]
+==== Httpie
+include::{snippets}/movie-ranking-interval-example/httpie-request.adoc[]
+==== Response body
+include::{snippets}/movie-ranking-interval-example/response-body.adoc[]
+

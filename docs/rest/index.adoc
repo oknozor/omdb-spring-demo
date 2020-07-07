@@ -8,7 +8,28 @@
 :sectlinks:
 :sectnums:
 
+== Introduction
+This is documentation for the omdb demo Springboot API.
+Note that all http resources, routes, parameters, requests and response use `snake_case`.
+
+=== Resources
 .Links
 include::{snippets}/index/links.adoc[]
+
+=== Response codes
+.Table Title
+|===
+|Code |Description
+
+|200 | Ok,
+|201 | Resource created,
+|204 | No content,
+|400 | Bad request,
+|404 | Resource not found,
+|409 | Conflict,
+
+|===
+
+
 include::/{docdir}/movie.adoc[]
 include::/{docdir}/comment.adoc[]
