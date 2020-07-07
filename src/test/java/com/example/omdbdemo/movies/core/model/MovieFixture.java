@@ -1,7 +1,6 @@
 package com.example.omdbdemo.movies.core.model;
 
 import com.example.omdbdemo.comments.core.model.CommentFixture;
-import com.example.omdbdemo.comments.dataproviders.db.entity.CommentEntity;
 import com.example.omdbdemo.movies.dataproviders.db.entity.MovieEntity;
 import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 

@@ -6,8 +6,6 @@ import com.example.omdbdemo.config.annotation.DatabaseTest;
 import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.model.MovieFixture;
 import com.example.omdbdemo.movies.dataproviders.db.repository.MovieDatabaseProvider;
-import org.junit.After;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

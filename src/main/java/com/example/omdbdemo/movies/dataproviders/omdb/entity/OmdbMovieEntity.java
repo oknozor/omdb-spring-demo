@@ -26,7 +26,6 @@ public class OmdbMovieEntity {
     private String plot;
     private String language;
     private String country;
-    // FIXME: extract those to lists
     private String awards;
     private String actors;
 }
