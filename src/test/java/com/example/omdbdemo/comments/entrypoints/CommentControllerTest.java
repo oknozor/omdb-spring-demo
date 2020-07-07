@@ -12,6 +12,7 @@ import com.example.omdbdemo.movies.core.model.Movie;
 import com.example.omdbdemo.movies.core.model.MovieFixture;
 import com.example.omdbdemo.movies.entrypoints.dto.mapper.MovieDtoMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,8 +68,9 @@ class CommentControllerTest {
     ) {
         jsonMapper = jsonMapper.registerModule(new JavaTimeModule());
         jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        jsonMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
+                .apply(documentationConfiguration(restDocumentation).uris())
                 .alwaysDo(document("{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
                 .build();
     }
@@ -112,7 +114,7 @@ class CommentControllerTest {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 attributes(key("title").value("Fields for comment creation")),
-                                fieldWithPath("movieId").description("Id of the movie to comment"),
+                                fieldWithPath("movie_id").description("Id of the movie to comment"),
                                 fieldWithPath("body").description("Comment content")
                         )));
     }

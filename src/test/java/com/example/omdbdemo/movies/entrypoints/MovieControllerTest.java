@@ -13,6 +13,7 @@ import com.example.omdbdemo.movies.entrypoints.dto.MovieRankingDto;
 import com.example.omdbdemo.movies.entrypoints.dto.UpdateMovieCommand;
 import com.example.omdbdemo.movies.entrypoints.dto.mapper.MovieDtoMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,10 +82,11 @@ class MovieControllerTest {
             RestDocumentationContextProvider restDocumentation
     ) {
         jsonMapper = jsonMapper.registerModule(new JavaTimeModule());
+        jsonMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         jsonMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
+                .apply(documentationConfiguration(restDocumentation).uris())
                 .alwaysDo(document("{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
                 .build();
     }
@@ -298,7 +300,7 @@ class MovieControllerTest {
 
     @Test
     @DisplayName("Should get movie rankings between dates")
-    void setGetMovieRankingsIntervalOk() throws Exception {
+    void getMovieRankingsIntervalOk() throws Exception {
         // Arrange
         LocalDate from = LocalDate.now().minusWeeks(1);
         LocalDate to = LocalDate.now();
